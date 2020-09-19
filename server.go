@@ -19,7 +19,7 @@ func main() {
 	r.HandleFunc("/pair-device", PairDeviceHandler).Methods(http.MethodPost)
 
 	addr := fmt.Sprintf("0.0.0.0:%s", os.Getenv("PORT"))
-	fmt.Println("addr:", addr)
+	fmt.Println("test addr:", addr)
 	server := http.Server{
 		Addr:    "127.0.0.1:2009",
 		Handler: r,

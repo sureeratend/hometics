@@ -50,7 +50,7 @@ func PairDeviceHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("pair: %#v\n", p)
 
-	db, err := sql.Open("postgress", os.Getenv("DATABASE_URL"))
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
 	}

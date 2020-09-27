@@ -50,16 +50,22 @@ func PairDeviceHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("pair: %#v\n", p)
 
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, err = db.Exec("INSERT INTO pair VALUES ($1,$2)", p.DeviceID, p.UserID)
+	err = createPairDevice(p)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err.Error())
 		return
 	}
 	w.Write([]byte(`{"status":"active"}`))
+}
+
+var createPairDevice = func(p Pair) error {
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec("INSERT INTO pair VALUES ($1,$2)", p.DeviceID, p.UserID)
+
+	return err
 }
